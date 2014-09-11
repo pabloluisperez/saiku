@@ -6,8 +6,10 @@
 	<packaging>pom</packaging>
     <version>3.0-SNAPSHOT</version>
 	<properties>
+		<!-- <tomcat.version>apache-tomcat-8.0.12</tomcat.version> -->
 		<tomcat.version>apache-tomcat-6.0.24</tomcat.version>
 		<tomcat.source>target/stage/tomcat/</tomcat.source>
+		<postgredriver.version>postgresql-9.3-1102-jdbc41</postgredriver.version>
 		<maven.build.timestamp.format>yyyyMMdd-HHmm</maven.build.timestamp.format>
 	</properties>
 	<build>
@@ -67,7 +69,10 @@
 									<fileset dir="${basedir}/tomcat/">
 										<include name="${tomcat.version}.zip" />
 									</fileset>
-								</unzip>								
+								</unzip>
+								<copy todir="target/stage/tomcat/${tomcat.version}/lib/">
+									<fileset dir="${basedir}/tomcat/lib/" />
+								</copy>
 								<copy todir="target/dist/saiku-server/">
 									<fileset dir="${basedir}/scripts/" />
 								</copy>

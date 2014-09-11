@@ -72,6 +72,42 @@ public class SessionResource  {
 			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getLocalizedMessage()).build();
 		}
 	}
+    
+
+    @POST
+	@Consumes("application/x-www-form-urlencoded")
+    @Path("/generateToken")
+	public Response generateToken(
+			@Context HttpServletRequest req,
+			@FormParam("username") String username, 
+			@FormParam("password") String password) 
+	{
+		try {
+			return Response.ok(sessionService.generateToken(req, username, password)).build();
+		}
+		catch (Exception e) {
+			log.debug("Error logging in:" + username, e);
+			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getLocalizedMessage()).build();
+		}
+	}
+    
+
+    @POST
+	@Consumes("application/x-www-form-urlencoded")
+    @Path("/loginToken")
+	public Response loginToken(
+			@Context HttpServletRequest req,
+			@FormParam("token") String token) 
+	{
+		try {
+			sessionService.loginToken(req, token);
+			return Response.ok().build();
+		}
+		catch (Exception e) {
+			log.debug("Error logging in:" + token, e);
+			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getLocalizedMessage()).build();
+		}
+	}
 
 	@GET
 	@Consumes("application/x-www-form-urlencoded")

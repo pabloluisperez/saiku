@@ -23,6 +23,13 @@ public interface ISessionService {
   public Map<String, Object> login( HttpServletRequest req,
                                     String username, String password ) throws Exception;
 
+  public String generateToken( HttpServletRequest req,
+          String username, String password ) throws Exception;
+
+  public Map<String, Object> loginToken( HttpServletRequest req,
+                                    String token ) throws Exception;
+  
+  
   public void logout( HttpServletRequest req );
 
   public void authenticate( HttpServletRequest req, String username,

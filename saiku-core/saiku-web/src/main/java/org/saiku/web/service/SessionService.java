@@ -48,6 +48,8 @@ public class SessionService implements ISessionService {
 
 	Map<Object,Map<String,Object>> sessionHolder = new HashMap<Object,Map<String,Object>>();
 
+	Map<String, String[]> tokenHolder = new HashMap<String, String[]>();
+	
 	private Boolean anonymous = false;
 	
 	public void setAllowAnonymous(Boolean allow) {
@@ -78,6 +80,25 @@ public class SessionService implements ISessionService {
 		return new HashMap<String, Object>();
 	}
 
+	// TODO: Implementar en BD
+	public String generateToken(HttpServletRequest req, String username, String password) throws Exception {
+		String uuid = UUID.randomUUID().toString();
+		this.tokenHolder.put(uuid, new String[]{username, password});
+		return uuid;
+	}
+	
+	public Map<String, Object> loginToken(HttpServletRequest req, String token) throws Exception {
+		String [] userPass = this.tokenHolder.get(token);
+		if(userPass==null){
+			return new HashMap<String, Object>();
+		}
+		
+		String username = userPass[0];
+		String password = userPass[1];
+		
+		return this.login(req, username, password);
+	}
+	
 	private void createSession(Authentication auth, String username, String password) {
 
 		if (auth ==  null || !auth.isAuthenticated()) {
@@ -193,4 +214,6 @@ public class SessionService implements ISessionService {
 		}
 		return new HashMap<String,Object>();
 	}
+
+
 }

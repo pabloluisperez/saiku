@@ -17,6 +17,7 @@
 package org.saiku.service;
 
 import javax.servlet.http.HttpServletRequest;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -41,6 +42,17 @@ public class AnonymousSessionService implements ISessionService {
     return null;
   }
 
+
+public String generateToken(HttpServletRequest req, String username, String password) throws Exception {
+	// TODO Auto-generated method stub
+	return null;
+}
+
+public Map<String, Object> loginToken(HttpServletRequest req, String token) throws Exception {
+	// TODO Auto-generated method stub
+	return null;
+}  
+  
   public void logout( HttpServletRequest req ) {
     // TODO Auto-generated method stub
 
@@ -59,5 +71,6 @@ public class AnonymousSessionService implements ISessionService {
   public Map<String, Object> getAllSessionObjects() {
     return session;
   }
+
 
 }
