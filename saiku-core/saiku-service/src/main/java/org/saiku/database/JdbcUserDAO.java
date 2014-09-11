@@ -80,7 +80,9 @@ public class JdbcUserDAO
 
     public String[] getRoles(SaikuUser user)
     {
-        String sql = "SELECT GROUP_CONCAT(ROLE) as ROLES from USER_ROLES where USER_ID = ?";
+        //String sql = "SELECT GROUP_CONCAT(ROLE) as ROLES from USER_ROLES where USER_ID = ?";
+        String sql = "SELECT string_agg(ROLE, ',') as ROLES from USER_ROLES where USER_ID = ?";
+        
         String roles = (String)getJdbcTemplate().queryForObject(sql, new Object[] { Integer.valueOf(user.getId()) }, String.class);
         if (roles != null)
         {
@@ -93,17 +95,23 @@ public class JdbcUserDAO
 
     public SaikuUser findByUserId(int userId)
     {
-
+/*
         return (SaikuUser) getJdbcTemplate().query("select T.USER_ID, t.USERNAME, t.PASSWORD, t.email, t.ENABLED,GROUP_CONCAT(ROLE) as ROLES from USERS t " +
+                "inner join (\nselect MAX(USERS.USER_ID) ID, USERS.USERNAME from USERS group by USERS.USERNAME) tm on t.USER_ID = tm.ID\n" +
+                "left join (select USER_ID, ROLE from USER_ROLES) ur on t.USER_ID = ur.USER_ID where t.user_id = ? GROUP BY t.USER_ID", new Object[] { Integer.valueOf(userId) }, new UserMapper()).get(0);*/
+        return (SaikuUser) getJdbcTemplate().query("select T.USER_ID, t.USERNAME, t.PASSWORD, t.email, t.ENABLED,string_agg(ROLE, ',') as ROLES from USERS t " +
                 "inner join (\nselect MAX(USERS.USER_ID) ID, USERS.USERNAME from USERS group by USERS.USERNAME) tm on t.USER_ID = tm.ID\n" +
                 "left join (select USER_ID, ROLE from USER_ROLES) ur on t.USER_ID = ur.USER_ID where t.user_id = ? GROUP BY t.USER_ID", new Object[] { Integer.valueOf(userId) }, new UserMapper()).get(0);
     }
 
     public Collection findAllUsers()
     {
-        return getJdbcTemplate().query("select T.USER_ID, t.USERNAME, t.PASSWORD, t.email, t.ENABLED,GROUP_CONCAT(ROLE) as ROLES from USERS t " +
+        /*return getJdbcTemplate().query("select T.USER_ID, t.USERNAME, t.PASSWORD, t.email, t.ENABLED,GROUP_CONCAT(ROLE) as ROLES from USERS t " +
                 "inner join (\nselect MAX(USERS.USER_ID) ID, USERS.USERNAME from USERS group by USERS.USERNAME) tm on t.USER_ID = tm.ID\n" +
-                "left join (select USER_ID, ROLE from USER_ROLES) ur on t.USER_ID = ur.USER_ID\nGROUP BY t.USER_ID", new UserMapper());
+                "left join (select USER_ID, ROLE from USER_ROLES) ur on t.USER_ID = ur.USER_ID\nGROUP BY t.USER_ID", new UserMapper());*/
+        return getJdbcTemplate().query("select T.USER_ID, t.USERNAME, t.PASSWORD, t.email, t.ENABLED,string_agg(ROLE, ',') as ROLES from USERS t " +
+                "inner join (\nselect MAX(USERS.USER_ID) ID, USERS.USERNAME from USERS group by USERS.USERNAME) tm on t.USER_ID = tm.ID\n" +
+                "left join (select USER_ID, ROLE from USER_ROLES) ur on t.USER_ID = ur.USER_ID\nGROUP BY t.USER_ID", new UserMapper());        
     }
 
     public void deleteUser(String username)

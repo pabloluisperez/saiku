@@ -91,6 +91,7 @@ public class JackRabbitRepositoryManager implements IRepositoryManager {
             log.info("starting repo");
             String xml = "../../repository/configuration.xml";
             String dir = "../../repository/data";
+            log.info("Home dir: " + System.getProperty("user.dir"));
             RepositoryConfig config = RepositoryConfig.create(xml, dir);
             repository = RepositoryImpl.create(config);
             log.info("repo started");

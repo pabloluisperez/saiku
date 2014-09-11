@@ -36,7 +36,7 @@ Usage: saiku run <package>
 
 package can be:
 
-	server <start|stop>
+	server <start|stop|log|logcat>
             starts or stops the server, according to the argument
 
 	ui [port] [backend_host] [backend_port]
@@ -86,6 +86,12 @@ case $1 in
 						echo ""
 						cd saiku-server/target/dist/saiku-server/
 						sh stop-saiku.sh
+					;;
+					"log")
+						tail -f saiku-server/target/dist/saiku-server/tomcat/logs/saiku.log
+					;;
+					"logcat")
+						cat saiku-server/target/dist/saiku-server/tomcat/logs/saiku.log
 					;;
 					*)
 						usageRun
