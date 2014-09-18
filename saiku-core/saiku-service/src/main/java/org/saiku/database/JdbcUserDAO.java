@@ -5,8 +5,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.LinkedList;
 import java.util.List;
+
 import org.saiku.UserDAO;
 import org.saiku.database.dto.SaikuUser;
 import org.springframework.jdbc.core.RowMapper;
@@ -101,7 +101,7 @@ public class JdbcUserDAO
                 "left join (select USER_ID, ROLE from USER_ROLES) ur on t.USER_ID = ur.USER_ID where t.user_id = ? GROUP BY t.USER_ID", new Object[] { Integer.valueOf(userId) }, new UserMapper()).get(0);*/
         return (SaikuUser) getJdbcTemplate().query("select T.USER_ID, t.USERNAME, t.PASSWORD, t.email, t.ENABLED,string_agg(ROLE, ',') as ROLES from USERS t " +
                 "inner join (\nselect MAX(USERS.USER_ID) ID, USERS.USERNAME from USERS group by USERS.USERNAME) tm on t.USER_ID = tm.ID\n" +
-                "left join (select USER_ID, ROLE from USER_ROLES) ur on t.USER_ID = ur.USER_ID where t.user_id = ? GROUP BY t.USER_ID", new Object[] { Integer.valueOf(userId) }, new UserMapper()).get(0);
+                "left join (select USER_ID, ROLE from USER_ROLES) ur on t.USER_ID = ur.USER_ID where t.user_id = ? GROUP BY t.USER_ID", new Object[] { userId }, new UserMapper()).get(0);
     }
 
     public Collection findAllUsers()
@@ -114,10 +114,10 @@ public class JdbcUserDAO
                 "left join (select USER_ID, ROLE from USER_ROLES) ur on t.USER_ID = ur.USER_ID\nGROUP BY t.USER_ID", new UserMapper());        
     }
 
-    public void deleteUser(String username)
+    public void deleteUser(int userId)
     {
         String newsql = "DELETE from USERS where USER_ID = ?";
-        getJdbcTemplate().update(newsql, new Object[] { username });
+        getJdbcTemplate().update(newsql, new Object[] { userId });
     }
 
     public SaikuUser updateUser(SaikuUser user) {

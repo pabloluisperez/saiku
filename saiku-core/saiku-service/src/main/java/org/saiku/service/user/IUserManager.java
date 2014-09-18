@@ -23,7 +23,7 @@ public interface IUserManager {
 
   public void removeRole(SaikuUser u);
 
-    public void removeUser(String username);
+    public void removeUser(int username);
 
     public SaikuUser updateUser(SaikuUser u);
 

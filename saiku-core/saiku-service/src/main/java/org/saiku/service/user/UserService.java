@@ -1,16 +1,16 @@
 package org.saiku.service.user;
 
-import org.saiku.database.JdbcUserDAO;
-import org.saiku.database.dto.SaikuUser;
-import org.saiku.service.ISessionService;
-import org.saiku.service.datasource.DatasourceService;
-import org.saiku.service.datasource.IDatasourceManager;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+
+import org.saiku.database.JdbcUserDAO;
+import org.saiku.database.dto.SaikuUser;
+import org.saiku.service.ISessionService;
+import org.saiku.service.datasource.DatasourceService;
+import org.saiku.service.datasource.IDatasourceManager;
 
 /**
  * Created by bugg on 01/05/14.
@@ -92,10 +92,10 @@ public class UserService implements IUserManager, Serializable {
         uDAO.deleteRole(u);
     }
 
-    public void removeUser(String username) {
-        SaikuUser u = getUser(Integer.parseInt(username));
+    public void removeUser(int userId) {
+        SaikuUser u = getUser(userId);
 
-        uDAO.deleteUser(username);
+        uDAO.deleteUser(userId);
 
         iDatasourceManager.deleteFolder("homes/" + u.getUsername());
 

@@ -278,12 +278,12 @@ public class AdminResource {
 
     @DELETE
     @Produces( {"application/json"})
-    @Path("/users/{username}")
-    public Response removeUser(@PathParam("username") String username) {
+    @Path("/users/{userId}")
+    public Response removeUser(@PathParam("userId") int userId) {
         if(!userService.isAdmin()){
             return Response.status(Response.Status.FORBIDDEN).build();
         }
-        userService.removeUser(username);
+        userService.removeUser(userId);
         return Response.ok().build();
     }
 
