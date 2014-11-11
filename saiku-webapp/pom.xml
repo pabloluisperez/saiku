@@ -1,24 +1,19 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<parent>
-		<artifactId>saiku-core</artifactId>
+		<artifactId>saiku</artifactId>
 		<groupId>org.saiku</groupId>
-		<version>3.0-SNAPSHOT</version>
+		<version>3.1-SNAPSHOT</version>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.saiku</groupId>
 	<artifactId>saiku-webapp</artifactId>
-	<version>3.0-SNAPSHOT</version>
+	<version>3.1-SNAPSHOT</version>
 	<name>saiku - webapp</name>
 	<packaging>war</packaging>
 
-	<properties>
-		<spring.version>3.2.1.RELEASE</spring.version>
-		<spring.security.version>3.0.3.RELEASE</spring.security.version>
-		<enunciate.version>1.28</enunciate.version>
-		<jersey.version>1.11</jersey.version>
-	</properties>
-
+    <properties>
+        <checkstyle.skip>true</checkstyle.skip>
+    </properties>
 	<build>
 		<!-- <outputDirectory>target/WEB-INF/classes</outputDirectory> -->
 		<plugins>
@@ -40,7 +35,7 @@
                 <version>${project.version}</version>
                 <type>jar</type>
                 <classifier>sources</classifier>
-                <outputDirectory>target/saiku-webapp-3.0-SNAPSHOT/WEB-INF/lib/</outputDirectory>
+                <outputDirectory>target/saiku-webapp-3.0.1-SNAPSHOT/WEB-INF/lib/</outputDirectory>
             </artifactItem>
             </artifactItems>
             </configuration>
@@ -66,30 +61,23 @@
 								<copy todir="target/${project.artifactId}-foodmart-${project.version}">
 									<fileset dir="target/${project.artifactId}-${project.version}/" />
 								</copy>
-								<unzip
-									dest="target/${project.artifactId}-foodmart-${project.version}/WEB-INF/classes/">
+								<!--<unzip dest="target/${project.artifactId}-foodmart-${project.version}/WEB-INF/classes/">
 									<fileset dir="${basedir}/../util/">
 										<include name="foodmart.zip" />
 									</fileset>
 								</unzip>
-								<copy
-									todir="target/${project.artifactId}-foodmart-${project.version}/WEB-INF/classes/foodmart/"
-									overwrite="true">
+								<copy todir="target/${project.artifactId}-foodmart-${project.version}/WEB-INF/classes/foodmart/" overwrite="true">
 									<fileset dir="${basedir}/../util/">
 										<include name="FoodMart.xml" />
 									</fileset>
 								</copy>
-								<copy
-									todir="target/${project.artifactId}-foodmart-${project.version}/WEB-INF/classes/saiku-datasources/"
-									overwrite="true">
+								<copy todir="target/${project.artifactId}-foodmart-${project.version}/WEB-INF/classes/saiku-datasources/" overwrite="true">
 									<fileset dir="${basedir}/../util/">
 										<include name="foodmart" />
 									</fileset>
-								</copy>
-								<zip
-									destfile="target/${project.artifactId}-foodmart-${project.version}.war">
-									<zipfileset
-										dir="target/${project.artifactId}-foodmart-${project.version}/" />
+								</copy>-->
+								<zip destfile="target/${project.artifactId}-foodmart-${project.version}.war">
+									<zipfileset dir="target/${project.artifactId}-foodmart-${project.version}/" />
 								</zip>
 							</tasks>
 						</configuration>
@@ -97,28 +85,9 @@
 				</executions>
 			</plugin>
 			<plugin>
-				<groupId>org.codehaus.enunciate</groupId>
-				<artifactId>maven-enunciate-spring-plugin</artifactId>
-				<version>${enunciate.version}</version>
-				<configuration>
-					<configFile>enunciate.xml</configFile>
-				</configuration>
-				<executions>
-					<execution>
-						<goals>
-							<goal>assemble</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-
-
-			<!-- <plugin> <groupId>org.mortbay.jetty</groupId> <artifactId>jetty-maven-plugin</artifactId> 
-				<version>7.2.0.v20101020</version> </plugin> -->
-
-			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
+                <version>2.3</version>
 				<executions>
 					<execution>
 						<id>surefire-it</id>
@@ -135,91 +104,85 @@
 			<plugin>
 				<groupId>org.mortbay.jetty</groupId>
 				<artifactId>maven-jetty-plugin</artifactId>
-				<!-- <configuration> <contextPath>/</contextPath> <scanIntervalSeconds>10</scanIntervalSeconds> 
-					<stopKey>sparklr</stopKey> <stopPort>9999</stopPort> </configuration> <executions> 
-					<execution> <id>start-jetty</id> <phase>pre-integration-test</phase> <goals> 
-					<goal>run</goal> </goals> <configuration> <scanIntervalSeconds>0</scanIntervalSeconds> 
-					<daemon>true</daemon> </configuration> </execution> <execution> <id>stop-jetty</id> 
-					<phase>post-integration-test</phase> <goals> <goal>stop</goal> </goals> </execution> 
-					</executions> -->
+                <version>6.1.10</version>
 			</plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>2.4</version>
+                <configuration>
+
+                </configuration>
+            </plugin>
 		</plugins>
 	</build>
-	<dependencies>
-		<dependency>
+    <dependencies>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+            <version>1.7.5</version>
+            <scope>provided</scope>
+        </dependency>
+	<!--	<dependency>
 			<groupId>org.jasig.cas.client</groupId>
 			<artifactId>cas-client-core</artifactId>
-			<version>3.3.2</version>
-		</dependency>
+		</dependency>-->
 		<dependency>
 			<groupId>org.jasig.cas.client</groupId>
 			<artifactId>cas-client-integration-tomcat-common</artifactId>
-			<version>3.3.2</version>
 		</dependency>
 		<dependency>
 			<groupId>org.jasig.cas.client</groupId>
 			<artifactId>cas-client-integration-tomcat-v7</artifactId>
-			<version>3.3.2</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-cas</artifactId>
-		        <version>${spring.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.saiku</groupId>
 			<artifactId>saiku-service</artifactId>
-			<version>${project.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.saiku</groupId>
 			<artifactId>saiku-web</artifactId>
-			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.saiku</groupId>
 			<artifactId>saiku-olap-util</artifactId>
-			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.saiku</groupId>
 			<artifactId>saiku-query</artifactId>
-			<version>0.1-SNAPSHOT</version>
 		</dependency>
 		
 		<!-- Spring modules -->
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-core</artifactId>
-			<version>${spring.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-beans</artifactId>
-			<version>${spring.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-aop</artifactId>
-			<version>${spring.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context</artifactId>
-			<version>${spring.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context-support</artifactId>
-			<version>${spring.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-taglibs</artifactId>
-			<version>${spring.security.version}</version>
 			<exclusions>
 				<exclusion>
 					<groupId>org.springframework</groupId>
@@ -230,28 +193,23 @@
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-webmvc</artifactId>
-			<version>${spring.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-test</artifactId>
-			<version>${spring.version}</version>
 		</dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-orm</artifactId>
-            <version>${spring.version}</version>
         </dependency>
 		<dependency>
 			<groupId>com.sun.jersey</groupId>
 			<artifactId>jersey-core</artifactId>
-			<version>${jersey.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.sun.jersey.contribs</groupId>
 			<artifactId>jersey-spring</artifactId>
-			<version>${jersey.version}</version>
 			<exclusions>
 				<exclusion>
 					<groupId>org.springframework</groupId>
@@ -279,156 +237,147 @@
 		<dependency>
 			<groupId>com.sun.jersey</groupId>
 			<artifactId>jersey-server</artifactId>
-			<version>${jersey.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.sun.jersey.contribs</groupId>
 			<artifactId>jersey-multipart</artifactId>
-			<version>${jersey.version}</version>
 		</dependency>
-		<dependency>
-			<groupId>org.jvnet</groupId>
-  			<artifactId>mimepull</artifactId>
-  			<version>1.6</version>
-  		</dependency>
-		<dependency>
+        <dependency>
+            <groupId>org.jvnet.mimepull</groupId>
+            <artifactId>mimepull</artifactId>
+        </dependency>
+        <dependency>
 			<groupId>javax.ws.rs</groupId>
 			<artifactId>jsr311-api</artifactId>
-			<version>1.1.1</version>
 		</dependency>
-		<dependency>
+		<!--<dependency>
 			<groupId>com.sun.jersey.jersey-test-framework</groupId>
 			<artifactId>jersey-test-framework-core</artifactId>
-			<version>${jersey.version}</version>
 			<scope>test</scope>
-		</dependency>
+		</dependency>-->
 		<dependency>
 			<groupId>com.sun.grizzly</groupId>
 			<artifactId>grizzly-servlet-webserver</artifactId>
-			<version>1.9.18-i</version>
 			<scope>test</scope>
 		</dependency>
-		<dependency>
+		<!--<dependency>
 			<groupId>org.codehaus.enunciate</groupId>
 			<artifactId>enunciate-jersey-rt</artifactId>
-			<version>${enunciate.version}</version>
 			<exclusions>
 				<exclusion>
 					<groupId>com.sun.jersey</groupId>
 					<artifactId>jersey-server</artifactId>
 				</exclusion>
 			</exclusions>
-		</dependency>
+		</dependency>-->
+        <dependency>
+            <groupId>com.sun.jersey</groupId>
+            <artifactId>jersey-json</artifactId>
+            <version>1.11</version>
+        </dependency>
+
 		<dependency>
 			<groupId>org.mockito</groupId>
 			<artifactId>mockito-all</artifactId>
-			<version>1.8.5</version>
 			<scope>test</scope>
 		</dependency>
-		<dependency>
+		<!--<dependency>
 			<groupId>org.codehaus.enunciate</groupId>
 			<artifactId>enunciate-rt</artifactId>
-			<version>${enunciate.version}</version>
-		</dependency>
+		</dependency>-->
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>4.8.2</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>cglib</groupId>
 			<artifactId>cglib</artifactId>
-			<version>2.2</version>
 		</dependency>
-		<dependency>
+		<!--<dependency>
 			<groupId>org.codehaus.enunciate</groupId>
 			<artifactId>enunciate-spring3-app-rt</artifactId>
-			<version>${enunciate.version}</version>
-		</dependency>
+		</dependency>-->
 
 
 		<dependency>
 			<groupId>org.codehaus.jettison</groupId>
 			<artifactId>jettison</artifactId>
-			<version>1.2</version>
 		</dependency>
 		<dependency>
 			<groupId>hsqldb</groupId>
 			<artifactId>hsqldb</artifactId>
-			<version>1.8.0.10</version>
 		</dependency>
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
-			<version>5.1.17</version>
 		</dependency>
-		<dependency>
+        <dependency>
+            <groupId>net.sourceforge.jtds</groupId>
+            <artifactId>jtds</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+        </dependency>
+        <!--<dependency>
+            <groupId>org.apache.hive</groupId>
+            <artifactId>hive-jdbc</artifactId>
+        </dependency>-->
+
+        <dependency>
 			<groupId>commons-dbcp</groupId>
 			<artifactId>commons-dbcp</artifactId>
-			<version>1.4</version>
 		</dependency>
 		<dependency>
 			<groupId>commons-pool</groupId>
 			<artifactId>commons-pool</artifactId>
-			<version>1.4</version>
 		</dependency>
 		<dependency>
 			<groupId>commons-vfs</groupId>
 			<artifactId>commons-vfs</artifactId>
-			<version>1.0</version>
 		</dependency>
 		<dependency>
 			<groupId>commons-math</groupId>
 			<artifactId>commons-math</artifactId>
-			<version>1.2</version>
 		</dependency>
 		<dependency>
 			<groupId>commons-collections</groupId>
 			<artifactId>commons-collections</artifactId>
-			<version>3.2.1</version>
 		</dependency>
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>servlet-api</artifactId>
-			<version>2.3</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-core</artifactId>
-			<version>${spring.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-config</artifactId>
-			<version>${spring.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>jstl</artifactId>
-			<version>1.2</version>
 		</dependency>
 		<dependency>
 			<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>
-			<version>2.4</version>
 		</dependency>
 		<dependency>
 			<groupId>commons-httpclient</groupId>
 			<artifactId>commons-httpclient</artifactId>
-			<version>20020423</version>
 		</dependency>
 		<dependency>
 			<groupId>javax.servlet.jsp</groupId>
 			<artifactId>jsp-api</artifactId>
-			<version>2.1</version>
 			<scope>provided</scope>
 		</dependency>
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
-            <version>1.4.177</version>
         </dependency>
 
 

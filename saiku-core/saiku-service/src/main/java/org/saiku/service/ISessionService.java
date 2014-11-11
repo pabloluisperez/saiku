@@ -13,30 +13,35 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
+
 package org.saiku.service;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
+/**
+ * ISessionService for Saiku Sessions.
+ */
 public interface ISessionService {
 
-  public Map<String, Object> login( HttpServletRequest req,
-                                    String username, String password ) throws Exception;
+  Map<String, Object> login(HttpServletRequest req,
+                            String username, String password) throws Exception;
 
-  public String generateToken( HttpServletRequest req,
+  String generateToken( HttpServletRequest req,
           String username, String password ) throws Exception;
 
-  public Map<String, Object> loginToken( HttpServletRequest req,
+  Map<String, Object> loginToken( HttpServletRequest req,
                                     String token ) throws Exception;
   
   
-  public void logout( HttpServletRequest req );
+  void logout( HttpServletRequest req );
 
-  public void authenticate( HttpServletRequest req, String username,
+  void authenticate( HttpServletRequest req, String username,
                             String password );
 
-  public Map<String, Object> getSession();
+  Map<String, Object> getSession();
 
-  public Map<String, Object> getAllSessionObjects();
+  Map<String, Object> getAllSessionObjects();
 
 }

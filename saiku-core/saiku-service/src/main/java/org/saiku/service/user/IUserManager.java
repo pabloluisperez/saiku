@@ -2,33 +2,38 @@ package org.saiku.service.user;
 
 import org.saiku.database.dto.SaikuUser;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import java.util.List;
 
 /**
- * Created by bugg on 01/05/14.
+ * IUserManager.
  */
 public interface IUserManager {
 
-  public SaikuUser addUser(SaikuUser u);
+  @NotNull
+  SaikuUser addUser(SaikuUser u);
 
-  public boolean deleteUser(SaikuUser u);
+  boolean deleteUser(SaikuUser u);
 
-  public SaikuUser setUser(SaikuUser u);
+  @Nullable
+  SaikuUser setUser(SaikuUser u);
 
-  public SaikuUser getUser(int id);
+  SaikuUser getUser(int id);
 
-  public String[] getRoles(SaikuUser u);
+  String[] getRoles(SaikuUser u);
 
-  public void addRole(SaikuUser u);
+  void addRole(SaikuUser u);
 
-  public void removeRole(SaikuUser u);
+  void removeRole(SaikuUser u);
 
-    public void removeUser(int username);
+  void removeUser(int username);
 
-    public SaikuUser updateUser(SaikuUser u);
+  SaikuUser updateUser(SaikuUser u);
 
-    public boolean isAdmin();
+  boolean isAdmin();
 
-    public List<String> getAdminRoles();
+  List<String> getAdminRoles();
 
 }

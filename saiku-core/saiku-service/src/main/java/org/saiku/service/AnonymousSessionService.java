@@ -16,28 +16,37 @@
 
 package org.saiku.service;
 
-import javax.servlet.http.HttpServletRequest;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+import javax.servlet.http.HttpServletRequest;
+
+/**
+ * AnonymousSessionService.
+ */
 public class AnonymousSessionService implements ISessionService {
 
 
+  @NotNull
+  private final
   HashMap<String, Object> session = new HashMap<String, Object>();
 
   public AnonymousSessionService() {
-    session.put( "username", "anonymous" );
-    session.put( "sessionid", UUID.randomUUID().toString() );
-    session.put( "roles", new ArrayList<String>() );
+    session.put("username", "anonymous");
+    session.put("sessionid", UUID.randomUUID().toString());
+    session.put("roles", new ArrayList<String>());
 
 
   }
 
-  public Map<String, Object> login( HttpServletRequest req, String username,
-                                    String password ) {
+  @Nullable
+  public Map<String, Object> login(HttpServletRequest req, String username,
+                                   String password) {
     // TODO Auto-generated method stub
     return null;
   }
@@ -58,19 +67,20 @@ public Map<String, Object> loginToken(HttpServletRequest req, String token) thro
 
   }
 
-  public void authenticate( HttpServletRequest req, String username,
-                            String password ) {
+  public void authenticate(HttpServletRequest req, String username,
+                           String password) {
     // TODO Auto-generated method stub
 
   }
 
+  @NotNull
   public Map<String, Object> getSession() {
     return session;
   }
 
+  @NotNull
   public Map<String, Object> getAllSessionObjects() {
     return session;
   }
-
 
 }

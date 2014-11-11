@@ -253,6 +253,10 @@ public class PentahoDatasourceManager implements IDatasourceManager {
         return false;
     }
 
+    public void restoreLegacyFiles(byte[] data) {
+
+    }
+
     public void setACL(String a, String b, String c, List<String> d) {
 
     }
@@ -288,6 +292,10 @@ public class PentahoDatasourceManager implements IDatasourceManager {
 
     public String saveInternalFile(String path, String content, String type) {
         return null;
+    }
+
+    public void removeInternalFile(String filePath) {
+    
     }
 
     public String getInternalFileData(String file) {
