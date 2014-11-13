@@ -16,16 +16,6 @@
 package org.saiku.web.rest.resources;
 
 
-import org.saiku.olap.query2.ThinQuery;
-import org.saiku.web.rest.objects.resultset.QueryResult;
-import org.saiku.web.rest.util.ServletUtil;
-import org.saiku.web.svg.Converter;
-
-import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
-
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
@@ -33,12 +23,27 @@ import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.*;
+import javax.ws.rs.DefaultValue;
+import javax.ws.rs.FormParam;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+
+import org.apache.commons.lang.StringUtils;
+import org.saiku.olap.query2.ThinQuery;
+import org.saiku.web.rest.objects.resultset.QueryResult;
+import org.saiku.web.rest.util.ServletUtil;
+import org.saiku.web.svg.Converter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 
 /**

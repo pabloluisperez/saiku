@@ -20,13 +20,21 @@
  * @param password
  * @returns {Session}
  */
+//var Token = Backbone.Model.extend({
+////  hash: null,
+//  url : function() {
+//    return 'session/loginToken';
+//  }
+//});
+
+
 var Session = Backbone.Model.extend({
     username: null,
     password: null,
     sessionid: null,
     upgradeTimeout: null,
-    isAdmin: false,
-        
+    isadmin: false,
+    token: null,    
     initialize: function(args, options) {
         // Attach a custom event bus to this model
         _.extend(this, Backbone.Events);
@@ -38,10 +46,29 @@ var Session = Backbone.Model.extend({
             if (!Settings.DEMO) {
                 this.save({username:this.username, password:this.password},{success: this.check_session, error: this.check_session});
             } else {
-                this.check_session();    
+            	this.login(this.username, this.password);
+//                this.check_session();    
             }
 
-        } else {
+        } if(options && options.hash){
+        	console.log("HASH", options.hash.substring(1));
+        	this.token = options.hash.substring(1);
+//        	var tokenModel = new Token();
+        	var that = this;
+        	Backbone.ajax({
+        	    dataType: "json",
+        	    type: "post",
+        	    url: 'saiku/rest/saiku/session/loginToken',
+        	    data: {token: this.token},
+        	    success: function(val){
+        	    	that.check_session();
+        	    },
+        	    error: function(val){
+        	    	that.check_session();
+        	    }
+        	});
+//        	tokenModel.save({token: this.token}, {success: this.check_session(), error: this.check_session()});
+    	} else {
             this.check_session();
         }
     },
@@ -49,7 +76,7 @@ var Session = Backbone.Model.extend({
     check_session: function() {
         if (this.sessionid === null || this.username === null || this.password === null) {
             this.clear();
-            this.fetch({ success: this.process_session });
+            this.fetch({ success: this.process_session })
         } else {
             this.username = encodeURIComponent(options.username);
             this.load_session();
@@ -73,7 +100,7 @@ var Session = Backbone.Model.extend({
         } else {
             this.sessionid = response.sessionid;
             this.roles = response.roles;
-            this.isAdmin = response.isadmin;
+            this.isadmin = response.isadmin;
             this.username = encodeURIComponent(response.username);
             this.language = response.language;
             if (typeof this.language != "undefined" && this.language != Saiku.i18n.locale) {
@@ -93,7 +120,7 @@ var Session = Backbone.Model.extend({
     login: function(username, password) {
         var that = this;
         this.save({username:username, password:password},{dataType: "text", success: this.check_session, error: function(model, response){
-            that.login_failed(response.responseText);
+            that.login_failed(response.responseText)
         }});
         
     },
@@ -110,20 +137,28 @@ var Session = Backbone.Model.extend({
         Saiku.tabs = new TabSet();
         Saiku.toolbar.remove();
         Saiku.toolbar = new Toolbar();
-
-        if (typeof localStorage !== "undefined" && localStorage) {
-            localStorage.clear();
-        }
-
+        typeof localStorage !== "undefined" && localStorage && localStorage.clear();
         this.id = _.uniqueId('queryaction_');
         this.clear();
         this.sessionid = null;
         this.username = null;
         this.password = null;
-        this.isAdmin = false;
+        this.isadmin = false;
         this.destroy({async: false });
+        
+        Backbone.ajax({type: "delete",url: 'saiku/rest/saiku/session',
+    	    success: function(val){
+    	    	console.log("Loged out");
+    	    	document.location.reload(false);
+    	    },
+    	    error: function(val){
+    	    	console.log("Error with logout");
+    	    	document.location.reload(false);
+    	    }
+    	});
+        
         //console.log("REFRESH!");
-        document.location.reload(false);
+        
         delete this.id;
 
     },

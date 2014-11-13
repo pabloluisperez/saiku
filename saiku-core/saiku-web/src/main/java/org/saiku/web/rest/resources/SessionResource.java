@@ -83,7 +83,7 @@ public class SessionResource {
 			return Response.ok().build();
 		}
 		catch (Exception e) {
-			log.debug("Error logging in:" + token, e);
+			LOG.debug("Error logging in:" + token, e);
 			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getLocalizedMessage()).build();
 		}
 	}

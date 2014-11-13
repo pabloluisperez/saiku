@@ -16,9 +16,18 @@
 
 package org.saiku.web.service;
 
-import org.saiku.service.ISessionService;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang.StringUtils;
+import org.saiku.service.ISessionService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -31,11 +40,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
 
-import java.util.*;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
 /**
  * Session Service.
  */
@@ -46,6 +50,7 @@ public class SessionService implements ISessionService {
   private AuthenticationManager authenticationManager;
 
   Map<Object, Map<String, Object>> sessionHolder = new HashMap<Object, Map<String, Object>>();
+  Map<Object, String[]> tokenHolder = new HashMap<Object, String[]>();
 
   private Boolean anonymous = false;
 
@@ -160,6 +165,7 @@ public class SessionService implements ISessionService {
     if (session != null) {
       session.invalidate();
     }
+    LOG.error("SessionService: BORRAMOS USUARIO y DATOS ASOCIADOS!!!");
   }
 
   /* (non-Javadoc)
@@ -175,7 +181,7 @@ public class SessionService implements ISessionService {
     } catch (BadCredentialsException bd) {
       throw new RuntimeException("Authentication failed for: " + username, bd);
     }
-
+    LOG.error("SessionService: AUTENTICAMOS!!!");
   }
 
   /* (non-Javadoc)

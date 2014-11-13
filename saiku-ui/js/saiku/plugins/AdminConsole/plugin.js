@@ -812,7 +812,7 @@ Saiku.events.bind('admin:loadschema', function(admin){
 
 });
 Saiku.events.bind('session:new', function (session) {
-if(Saiku.session.isAdmin) {
+if(Saiku.session.isadmin) {
     var $link = $("<a />")
         .attr({
             href: "#adminconsole",

@@ -16,10 +16,10 @@
 
 package org.saiku.web.rest.objects;
 
-import org.saiku.datasources.datasource.SaikuDatasource;
-
 import java.util.Properties;
 import java.util.UUID;
+
+import org.saiku.datasources.datasource.SaikuDatasource;
 
 /**
  * Map from SaikuDatasources to JSON variants.

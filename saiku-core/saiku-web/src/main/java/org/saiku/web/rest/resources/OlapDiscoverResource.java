@@ -15,13 +15,6 @@
  */
 package org.saiku.web.rest.resources;
 
-import org.saiku.olap.dto.*;
-import org.saiku.service.olap.OlapDiscoverService;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +24,19 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+
+import org.saiku.olap.dto.SaikuConnection;
+import org.saiku.olap.dto.SaikuCube;
+import org.saiku.olap.dto.SaikuCubeMetadata;
+import org.saiku.olap.dto.SaikuDimension;
+import org.saiku.olap.dto.SaikuHierarchy;
+import org.saiku.olap.dto.SaikuLevel;
+import org.saiku.olap.dto.SaikuMember;
+import org.saiku.olap.dto.SimpleCubeElement;
+import org.saiku.service.olap.OlapDiscoverService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 /**
  * OlapDiscoverResource.

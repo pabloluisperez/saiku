@@ -18,7 +18,7 @@
  * Change settings here
  */
 var Settings = {
-    VERSION: "Saiku 3.0-GA", 
+    VERSION: "Saiku 3.1", 
     BIPLUGIN: false,
     BIPLUGIN5: false,
     BASE_URL: window.location.origin,
@@ -59,7 +59,7 @@ var Settings = {
     PLUGINS: [
         "Chart"
     ],
-    DEFAULT_VIEW_STATE: 'view', // could be 'edit' as well
+    DEFAULT_VIEW_STATE: 'edit', // could be 'edit' as well
     DEMO: false,
     TELEMETRY_SERVER: 'http://telemetry.analytical-labs.com:7000',
     LOCALSTORAGE_EXPIRATION: 10 * 60 * 60 * 1000 /* 10 hours, in ms */,

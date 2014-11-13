@@ -15,13 +15,6 @@
  */
 package org.saiku.web.rest.resources;
 
-import org.saiku.service.PlatformUtilsService;
-import org.saiku.service.util.dto.Plugin;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
-
 import java.util.List;
 
 import javax.ws.rs.GET;
@@ -31,6 +24,12 @@ import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.Response;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+
+import org.saiku.service.PlatformUtilsService;
+import org.saiku.service.util.dto.Plugin;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 /**
  * Info Resource to get platform information.

@@ -259,7 +259,7 @@ Saiku.events.bind('session:new', function() {
     /** 
      * Add translate button
      */
-    if (Saiku.i18n.locale != "en") {
+  /*  if (Saiku.i18n.locale != "en") {
         var $link = $("<a />").text(Saiku.i18n.locale)
             .attr({ 
                 href: "#translate",
@@ -269,7 +269,7 @@ Saiku.events.bind('session:new', function() {
             .addClass('sprite translate i18n');
         var $li = $("<li />").append($link);
         $(Saiku.toolbar.el).find('ul').append($li);
-    }
+    }*/
 
 });
 

@@ -17,10 +17,10 @@
 package org.saiku.web.svg;
 
 
+import java.util.ArrayList;
+
 import org.saiku.olap.dto.resultset.AbstractBaseCell;
 import org.saiku.olap.dto.resultset.MemberCell;
-
-import java.util.ArrayList;
 
 /**
  * Report Data.

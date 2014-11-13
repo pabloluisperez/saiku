@@ -922,9 +922,10 @@ public class JackRabbitRepositoryManager implements IRepositoryManager {
         String nodetype = node.getPrimaryNodeType().getName();
         String nodename = node.getName();
         String nodepath = node.getPath();
-
+        
         objects = JcrUtils.getChildNodes(node);
         String s = node.getPrimaryNodeType().getName();
+        LOG.error("NODO: " + nodename + " - " + nodetype + " - " + nodepath + " - " + s);
         if (acl2.canRead(node, username, roles)) {
           List<AclMethod> acls = acl2.getMethods(node, username, roles);
           if (node.getPrimaryNodeType().getName().equals("nt:file")) {

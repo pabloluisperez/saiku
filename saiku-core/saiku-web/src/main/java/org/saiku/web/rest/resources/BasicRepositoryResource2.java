@@ -16,33 +16,47 @@
 package org.saiku.web.rest.resources;
 
 
-import org.saiku.repository.AclEntry;
-import org.saiku.repository.IRepositoryObject;
-import org.saiku.service.ISessionService;
-import org.saiku.service.datasource.DatasourceService;
-import org.saiku.service.util.exception.SaikuServiceException;
-
-import com.sun.jersey.core.header.FormDataContentDisposition;
-import com.sun.jersey.multipart.FormDataParam;
-
-import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.exception.ExceptionUtils;
-import org.apache.commons.vfs.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
-
-import java.io.*;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
 
-import javax.ws.rs.*;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
+import javax.ws.rs.FormParam;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
+
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.exception.ExceptionUtils;
+import org.apache.commons.vfs.FileObject;
+import org.apache.commons.vfs.FileSystemManager;
+import org.apache.commons.vfs.FileType;
+import org.apache.commons.vfs.FileUtil;
+import org.apache.commons.vfs.VFS;
+import org.saiku.repository.AclEntry;
+import org.saiku.repository.IRepositoryObject;
+import org.saiku.service.ISessionService;
+import org.saiku.service.datasource.DatasourceService;
+import org.saiku.service.util.exception.SaikuServiceException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
+
+import com.sun.jersey.core.header.FormDataContentDisposition;
+import com.sun.jersey.multipart.FormDataParam;
 
 
 /**
@@ -138,6 +152,7 @@ this.acl = acl;
     try {
       String username = sessionService.getAllSessionObjects().get("username").toString();
       List<String> roles = (List<String>) sessionService.getAllSessionObjects().get("roles");
+      LOG.error("Seteamos al fichero " + file + " los permisos " + aclEntry + " para los roles " + roles.get(0));
       datasourceService.setResourceACL(file, aclEntry, username, roles);
       return Response.ok().build();
 
@@ -157,6 +172,9 @@ this.acl = acl;
   @Produces({ "text/plain" })
   @Path("/resource")
   public Response getResource(@QueryParam("file") String file) {
+	  if(sessionService == null || sessionService.getAllSessionObjects()==null){
+		  LOG.error("No session objects defined!!");
+	  }
     String username = sessionService.getAllSessionObjects().get("username").toString();
     List<String> roles = (List<String>) sessionService.getAllSessionObjects().get("roles");
 

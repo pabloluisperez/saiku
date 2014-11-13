@@ -15,9 +15,8 @@
  */
 package org.saiku.olap.util.formatter;
 
-import org.saiku.olap.dto.resultset.Matrix;
-
 import org.olap4j.CellSet;
+import org.saiku.olap.dto.resultset.Matrix;
 
 /**
  * ICellSetFormatter.
