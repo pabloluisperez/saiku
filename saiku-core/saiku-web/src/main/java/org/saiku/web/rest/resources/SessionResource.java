@@ -88,6 +88,18 @@ public class SessionResource {
 		}
 	}
 
+	@POST
+	@Consumes("application/x-www-form-urlencoded")
+	@Path("/generateToken")
+	public Response generateToken(@Context HttpServletRequest req, @FormParam("username") String username, @FormParam("password") String password) {
+		try {
+			return Response.ok(sessionService.generateToken(req, username, password)).build();
+		} catch (Exception e) {
+			LOG.debug("Error logging in:" + username, e);
+			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getLocalizedMessage()).build();
+		}
+	}
+	
   @GET
   @Consumes("application/x-www-form-urlencoded")
   @Produces(MediaType.APPLICATION_JSON)
